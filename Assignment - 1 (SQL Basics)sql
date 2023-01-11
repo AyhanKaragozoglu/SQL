@@ -1,0 +1,71 @@
+--How many customers are in each city? Your solution should include the city name and the number of customers sorted from highest to lowest.
+SELECT city, COUNT(customer_id) number_of_customers
+FROM sale.customer
+GROUP BY city 
+ORDER by city DESC;
+
+--2. Find the total product quantity of the orders. Your solution should include order ids and quantity of products.
+
+SELECT s.[quantity] , o.[order_id] 
+FROM [sale].[order_item]  as o 
+JOIN [product].[stock] as s 
+ON s.product_id = o.order_id
+
+
+
+
+--3. Find the first order date for each customer_id.
+
+SELECT  c.[customer_id],c.[first_name] ,c.[last_name], o.[order_date]
+from [sale].[customer] as c 
+JOIN [sale].[orders] as o 
+ON c.customer_id = o.customer_id
+
+
+
+--4. Find the total amount of each order. Your solution should include order id and total amount sorted from highest to lowest.
+
+SELECT [order_id],[list_price] 
+FROM [sale].[order_item]
+ORDER by [list_price] DESC;
+
+--5. Find the order id that has the maximum average product price. Your solution should include only one row with the order id and average product price.
+
+SELECT TOP 1 product_name, list_price
+FROM product.product
+ORDER BY list_price DESC;
+--6. Write a query that displays brand_id, product_id and list_price sorted first by brand_id (in ascending order), and then by list_price  (in descending order).
+
+SELECT b.brand_id, p.product_id, p.list_price 
+FROM [product].[product] AS p 
+JOIN [product].[brand] as b 
+ON b.brand_id = p.product_id 
+ORDER by b.brand_id asc,p.list_price DESC;
+
+--7. Write a query that displays brand_id, product_id and list_price, but this time sorted first by list_price (in descending order), and then by brand_id (in ascending order).
+SELECT b.brand_id, p.product_id, p.list_price 
+FROM [product].[product] AS p 
+JOIN [product].[brand] as b 
+ON b.brand_id = p.product_id 
+ORDER by p.list_price ASC,b.brand_id DESC;
+
+
+--8. Compare the results of these two queries above. How are the results different when you switch the column you sort on first? (Explain it in your own words.)
+
+-- ilk kodda brand_id ye göre sıraladı ve list_price karışık geldi. ikinci kodda list_price öncelik ona göre de brand karışık geldi
+
+--9. Write a query to pull the first 10 rows and all columns from the product table that have a list_price greater than or equal to 3000.
+
+SELECT top 10 [list_price] FROM [product].[product] WHERE [list_price] >=  3000
+
+--10. Write a query to pull the first 5 rows and all columns from the product table that have a list_price less than 3000.
+
+SELECT top 5 *  from [product].[product] WHERE  [list_price] < 3000
+
+--11. Find all customer last names that start with 'B' and end with 's'.
+
+SELECT [last_name] FROM [sale].[customer] WHERE last_name LIKE '[B]%s%' ;
+
+--12. Use the customer table to find all information regarding customers whose address is Allen or Buffalo or Boston or Berkeley.
+
+SELECT * FROM [sale].[customer] WHERE city = 'Allen' OR city = 'Buffalo' OR city = 'Boston' OR city = 'Berkeley'
